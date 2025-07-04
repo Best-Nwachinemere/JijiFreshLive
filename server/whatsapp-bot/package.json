@@ -1,0 +1,31 @@
+{
+  "name": "jijifresh-whatsapp-bot",
+  "version": "1.0.0",
+  "description": "WhatsApp bot for JijiFresh marketplace",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "nodemon bot.js"
+  },
+  "dependencies": {
+    "whatsapp-web.js": "^1.23.0",
+    "express": "^4.18.2",
+    "qrcode-terminal": "^0.12.0",
+    "puppeteer": "^21.0.0",
+    "axios": "^1.5.0",
+    "multer": "^1.4.5-lts.1",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "marketplace",
+    "nigeria",
+    "web3"
+  ],
+  "author": "JijiFresh Team",
+  "license": "MIT"
+}
