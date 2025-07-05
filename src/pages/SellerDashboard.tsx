@@ -621,24 +621,46 @@ const SellerDashboard: React.FC = () => {
         </div>
       )}
 
-      {/* Tabs */}
+      {/* Tabs - Responsive Layout */}
       <div className="mb-8">
-        <div className="flex space-x-1 bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-1 overflow-x-auto">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap text-sm ${
-                activeTab === tab.id
-                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-              }`}
-            >
-              <tab.icon className="w-4 h-4" />
-              <span className="hidden sm:inline">{tab.label}</span>
-              <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
-            </button>
-          ))}
+        {/* Desktop Horizontal Tabs */}
+        <div className="hidden lg:block">
+          <div className="flex space-x-1 bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-1">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors text-sm ${
+                  activeTab === tab.id
+                    ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                }`}
+              >
+                <tab.icon className="w-4 h-4" />
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile/Tablet Vertical Tabs */}
+        <div className="lg:hidden">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex flex-col items-center space-y-1 p-3 rounded-lg font-medium transition-colors text-xs ${
+                  activeTab === tab.id
+                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border-2 border-green-200 dark:border-green-800'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                }`}
+              >
+                <tab.icon className="w-5 h-5" />
+                <span className="text-center leading-tight">{tab.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
