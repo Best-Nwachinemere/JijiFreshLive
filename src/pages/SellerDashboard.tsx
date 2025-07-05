@@ -194,17 +194,17 @@ const SellerDashboard: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <div className="flex items-center space-x-3 mb-2">
               <div className="text-3xl">🌱</div>
-              <h1 className={`text-3xl font-bold ${
+              <h1 className={`text-2xl sm:text-3xl font-bold ${
                 state.isDarkMode ? 'text-white' : 'text-gray-900'
               }`}>
                 Seller Dashboard
               </h1>
             </div>
-            <p className={`text-lg ${
+            <p className={`text-base sm:text-lg ${
               state.isDarkMode ? 'text-gray-400' : 'text-gray-600'
             }`}>
               Welcome back, {state.user.name}! 🎉
@@ -212,7 +212,7 @@ const SellerDashboard: React.FC = () => {
           </div>
           <button
             onClick={() => setShowNewListingForm(!showNewListingForm)}
-            className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-xl hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105"
+            className="flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 sm:px-6 py-3 rounded-xl hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105 w-full sm:w-auto"
           >
             <Plus className="w-5 h-5" />
             <span>New Listing</span>
@@ -221,97 +221,97 @@ const SellerDashboard: React.FC = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid md:grid-cols-4 gap-6 mb-8">
-        <div className={`p-6 rounded-2xl backdrop-blur-sm ${
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+        <div className={`p-4 sm:p-6 rounded-2xl backdrop-blur-sm ${
           state.isDarkMode ? 'bg-gray-800/80 border border-gray-700/50' : 'bg-white/80 border border-white/50'
         }`}>
           <div className="flex items-center justify-between">
             <div>
-              <p className={`text-sm ${
+              <p className={`text-xs sm:text-sm ${
                 state.isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}>
                 Active Listings
               </p>
-              <p className={`text-2xl font-bold ${
+              <p className={`text-xl sm:text-2xl font-bold ${
                 state.isDarkMode ? 'text-white' : 'text-gray-900'
               }`}>
                 {sellerListings.filter(l => l.status === 'active').length}
               </p>
             </div>
-            <Package className="w-8 h-8 text-green-600" />
+            <Package className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
           </div>
         </div>
 
-        <div className={`p-6 rounded-2xl backdrop-blur-sm ${
+        <div className={`p-4 sm:p-6 rounded-2xl backdrop-blur-sm ${
           state.isDarkMode ? 'bg-gray-800/80 border border-gray-700/50' : 'bg-white/80 border border-white/50'
         }`}>
           <div className="flex items-center justify-between">
             <div>
-              <p className={`text-sm ${
+              <p className={`text-xs sm:text-sm ${
                 state.isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}>
                 Total Views
               </p>
-              <p className={`text-2xl font-bold ${
+              <p className={`text-xl sm:text-2xl font-bold ${
                 state.isDarkMode ? 'text-white' : 'text-gray-900'
               }`}>
                 {sellerListings.reduce((sum, listing) => sum + listing.views, 0)}
               </p>
             </div>
-            <Eye className="w-8 h-8 text-blue-600" />
+            <Eye className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
           </div>
         </div>
 
-        <div className={`p-6 rounded-2xl backdrop-blur-sm ${
+        <div className={`p-4 sm:p-6 rounded-2xl backdrop-blur-sm ${
           state.isDarkMode ? 'bg-gray-800/80 border border-gray-700/50' : 'bg-white/80 border border-white/50'
         }`}>
           <div className="flex items-center justify-between">
             <div>
-              <p className={`text-sm ${
+              <p className={`text-xs sm:text-sm ${
                 state.isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}>
                 Flash Sales
               </p>
-              <p className={`text-2xl font-bold ${
+              <p className={`text-xl sm:text-2xl font-bold ${
                 state.isDarkMode ? 'text-white' : 'text-gray-900'
               }`}>
                 {sellerListings.filter(l => l.flashSaleEnd && new Date(l.flashSaleEnd) > new Date()).length}
               </p>
             </div>
-            <Flame className="w-8 h-8 text-red-600" />
+            <Flame className="w-6 h-6 sm:w-8 sm:h-8 text-red-600" />
           </div>
         </div>
 
-        <div className={`p-6 rounded-2xl backdrop-blur-sm ${
+        <div className={`p-4 sm:p-6 rounded-2xl backdrop-blur-sm ${
           state.isDarkMode ? 'bg-gray-800/80 border border-gray-700/50' : 'bg-white/80 border border-white/50'
         }`}>
           <div className="flex items-center justify-between">
             <div>
-              <p className={`text-sm ${
+              <p className={`text-xs sm:text-sm ${
                 state.isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}>
                 Rating
               </p>
               <div className="flex items-center space-x-1">
-                <p className={`text-2xl font-bold ${
+                <p className={`text-xl sm:text-2xl font-bold ${
                   state.isDarkMode ? 'text-white' : 'text-gray-900'
                 }`}>
                   {state.user.rating}
                 </p>
-                <Star className="w-5 h-5 text-yellow-400 fill-current" />
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-current" />
               </div>
             </div>
-            <TrendingUp className="w-8 h-8 text-purple-600" />
+            <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
           </div>
         </div>
       </div>
 
       {/* New Listing Form */}
       {showNewListingForm && (
-        <div className={`mb-8 p-6 rounded-2xl backdrop-blur-sm ${
+        <div className={`mb-8 p-4 sm:p-6 rounded-2xl backdrop-blur-sm ${
           state.isDarkMode ? 'bg-gray-800/80 border border-gray-700/50' : 'bg-white/80 border border-white/50'
         }`}>
-          <h2 className={`text-xl font-bold mb-6 ${
+          <h2 className={`text-lg sm:text-xl font-bold mb-6 ${
             state.isDarkMode ? 'text-white' : 'text-gray-900'
           }`}>
             Create New Listing
@@ -332,7 +332,7 @@ const SellerDashboard: React.FC = () => {
               />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label className={`block text-sm font-medium mb-2 ${
                   state.isDarkMode ? 'text-white' : 'text-gray-900'
@@ -395,7 +395,7 @@ const SellerDashboard: React.FC = () => {
               />
             </div>
 
-            <div className="grid md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div>
                 <label className={`block text-sm font-medium mb-2 ${
                   state.isDarkMode ? 'text-white' : 'text-gray-900'
@@ -420,7 +420,7 @@ const SellerDashboard: React.FC = () => {
                 <label className={`block text-sm font-medium mb-2 ${
                   state.isDarkMode ? 'text-white' : 'text-gray-900'
                 }`}>
-                  Minimum Price (₦)
+                  Min Price (₦)
                 </label>
                 <input
                   type="number"
@@ -440,7 +440,7 @@ const SellerDashboard: React.FC = () => {
                 <label className={`block text-sm font-medium mb-2 ${
                   state.isDarkMode ? 'text-white' : 'text-gray-900'
                 }`}>
-                  Available Quantity *
+                  Quantity *
                 </label>
                 <input
                   type="number"
@@ -461,7 +461,7 @@ const SellerDashboard: React.FC = () => {
                 <label className={`block text-sm font-medium mb-2 ${
                   state.isDarkMode ? 'text-white' : 'text-gray-900'
                 }`}>
-                  Max Per Order
+                  Max/Order
                 </label>
                 <input
                   type="number"
@@ -473,17 +473,12 @@ const SellerDashboard: React.FC = () => {
                       ? 'bg-gray-700 border-gray-600 text-white'
                       : 'bg-white border-gray-300 text-gray-900'
                   } focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-                  placeholder="Leave empty for no limit"
+                  placeholder="No limit"
                 />
-                <p className={`text-xs mt-1 ${
-                  state.isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                }`}>
-                  Maximum quantity a single buyer can order
-                </p>
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label className={`block text-sm font-medium mb-2 ${
                   state.isDarkMode ? 'text-white' : 'text-gray-900'
@@ -595,7 +590,7 @@ const SellerDashboard: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex justify-end space-x-4">
+            <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4">
               <button
                 type="button"
                 onClick={() => setShowNewListingForm(false)}
@@ -628,19 +623,20 @@ const SellerDashboard: React.FC = () => {
 
       {/* Tabs */}
       <div className="mb-8">
-        <div className="flex space-x-1 bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-1">
+        <div className="flex space-x-1 bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-1 overflow-x-auto">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+              className={`flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap text-sm ${
                 activeTab === tab.id
                   ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               <tab.icon className="w-4 h-4" />
-              <span>{tab.label}</span>
+              <span className="hidden sm:inline">{tab.label}</span>
+              <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
             </button>
           ))}
         </div>
@@ -651,9 +647,9 @@ const SellerDashboard: React.FC = () => {
         state.isDarkMode ? 'bg-gray-800/80 border border-gray-700/50' : 'bg-white/80 border border-white/50'
       }`}>
         {activeTab === 'listings' && (
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className={`text-xl font-bold ${
+              <h2 className={`text-lg sm:text-xl font-bold ${
                 state.isDarkMode ? 'text-white' : 'text-gray-900'
               }`}>
                 Your Listings ({sellerListings.length})
@@ -681,7 +677,7 @@ const SellerDashboard: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {sellerListings.map(listing => (
                   <div
                     key={listing.id}
@@ -724,7 +720,7 @@ const SellerDashboard: React.FC = () => {
                       
                       <div className="mb-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-2xl font-bold text-green-600">
+                          <span className="text-xl sm:text-2xl font-bold text-green-600">
                             ₦{listing.price.toLocaleString()}
                           </span>
                           {listing.isNegotiable && listing.minPrice && (
@@ -774,7 +770,7 @@ const SellerDashboard: React.FC = () => {
                         }`}>
                           {listing.status}
                         </span>
-                        <span className={`${
+                        <span className={`text-xs ${
                           state.isDarkMode ? 'text-gray-400' : 'text-gray-500'
                         }`}>
                           {listing.createdAt.toLocaleDateString()}
@@ -782,7 +778,7 @@ const SellerDashboard: React.FC = () => {
                       </div>
 
                       <div className="flex space-x-2">
-                        <button className={`flex-1 flex items-center justify-center space-x-1 py-2 px-3 rounded-lg transition-colors ${
+                        <button className={`flex-1 flex items-center justify-center space-x-1 py-2 px-3 rounded-lg transition-colors text-sm ${
                           state.isDarkMode
                             ? 'bg-gray-600 text-white hover:bg-gray-500'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -806,16 +802,16 @@ const SellerDashboard: React.FC = () => {
         )}
 
         {activeTab === 'profile' && (
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className={`text-xl font-bold ${
+          <div className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+              <h2 className={`text-lg sm:text-xl font-bold ${
                 state.isDarkMode ? 'text-white' : 'text-gray-900'
               }`}>
                 Profile Settings
               </h2>
               <button
                 onClick={() => setShowProfileSettings(true)}
-                className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all"
+                className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all w-full sm:w-auto"
               >
                 <Settings className="w-4 h-4" />
                 <span>Edit Settings</span>
@@ -823,13 +819,13 @@ const SellerDashboard: React.FC = () => {
             </div>
             
             <div className="space-y-6">
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
                 <img
                   src={state.user.profilePhoto || 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'}
                   alt={state.user.name}
                   className="w-20 h-20 rounded-full object-cover"
                 />
-                <div>
+                <div className="text-center sm:text-left">
                   <h4 className={`font-semibold text-lg ${
                     state.isDarkMode ? 'text-white' : 'text-gray-900'
                   }`}>
@@ -840,7 +836,7 @@ const SellerDashboard: React.FC = () => {
                   }`}>
                     {state.user.email}
                   </p>
-                  <div className="flex items-center space-x-1 mt-1">
+                  <div className="flex items-center justify-center sm:justify-start space-x-1 mt-1">
                     <MapPin className="w-4 h-4 text-gray-400" />
                     <span className={`text-sm ${
                       state.isDarkMode ? 'text-gray-400' : 'text-gray-600'
@@ -848,7 +844,7 @@ const SellerDashboard: React.FC = () => {
                       {state.user.location}
                     </span>
                   </div>
-                  <div className="flex items-center space-x-1 mt-1">
+                  <div className="flex items-center justify-center sm:justify-start space-x-1 mt-1">
                     <Star className="w-4 h-4 text-yellow-400 fill-current" />
                     <span className={`text-sm ${
                       state.isDarkMode ? 'text-gray-400' : 'text-gray-600'
@@ -879,8 +875,8 @@ const SellerDashboard: React.FC = () => {
 
         {/* Other tabs remain the same */}
         {activeTab === 'messages' && (
-          <div className="p-6">
-            <h2 className={`text-xl font-bold mb-6 ${
+          <div className="p-4 sm:p-6">
+            <h2 className={`text-lg sm:text-xl font-bold mb-6 ${
               state.isDarkMode ? 'text-white' : 'text-gray-900'
             }`}>
               Messages & Offers
@@ -903,8 +899,8 @@ const SellerDashboard: React.FC = () => {
         )}
 
         {activeTab === 'sales' && (
-          <div className="p-6">
-            <h2 className={`text-xl font-bold mb-6 ${
+          <div className="p-4 sm:p-6">
+            <h2 className={`text-lg sm:text-xl font-bold mb-6 ${
               state.isDarkMode ? 'text-white' : 'text-gray-900'
             }`}>
               Sales History
@@ -927,8 +923,8 @@ const SellerDashboard: React.FC = () => {
         )}
 
         {activeTab === 'reviews' && (
-          <div className="p-6">
-            <h2 className={`text-xl font-bold mb-6 ${
+          <div className="p-4 sm:p-6">
+            <h2 className={`text-lg sm:text-xl font-bold mb-6 ${
               state.isDarkMode ? 'text-white' : 'text-gray-900'
             }`}>
               Customer Reviews

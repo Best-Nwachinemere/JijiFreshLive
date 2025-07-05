@@ -25,17 +25,30 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isOpen, onClose }) => {
     const savedCart = localStorage.getItem('jijiFreshCart');
     if (savedCart) {
       const cart = JSON.parse(savedCart);
-      setCartItems(cart.map((item: any) => ({
+      const validItems = cart.filter((item: any) => {
+        const expiry = new Date(item.holdExpiry);
+        return expiry > new Date();
+      });
+      
+      setCartItems(validItems.map((item: any) => ({
         ...item,
         holdExpiry: new Date(item.holdExpiry)
       })));
+      
+      // Update localStorage with valid items only
+      if (validItems.length !== cart.length) {
+        localStorage.setItem('jijiFreshCart', JSON.stringify(validItems));
+        window.dispatchEvent(new CustomEvent('cartUpdated'));
+      }
     }
-  }, []);
+  }, [isOpen]);
 
   useEffect(() => {
     // Timer countdown
     if (cartItems.length > 0 && timeLeft > 0) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      const timer = setTimeout(() => {
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
       return () => clearTimeout(timer);
     } else if (timeLeft === 0 && cartItems.length > 0) {
       // Timer expired - clear cart
@@ -43,41 +56,20 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isOpen, onClose }) => {
     }
   }, [timeLeft, cartItems.length]);
 
+  useEffect(() => {
+    // Calculate time left based on earliest expiry
+    if (cartItems.length > 0) {
+      const now = new Date();
+      const earliestExpiry = Math.min(...cartItems.map(item => item.holdExpiry.getTime()));
+      const timeRemaining = Math.max(0, Math.floor((earliestExpiry - now.getTime()) / 1000));
+      setTimeLeft(timeRemaining);
+    }
+  }, [cartItems]);
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const addToCart = (item: Listing, quantity: number = 1, negotiatedPrice?: number) => {
-    const cartItem: CartItem = {
-      ...item,
-      quantity,
-      negotiatedPrice,
-      holdExpiry: new Date(Date.now() + 5 * 60 * 1000) // 5 minutes from now
-    };
-
-    setCartItems(prev => {
-      const existing = prev.find(ci => ci.id === item.id);
-      let newCart;
-      
-      if (existing) {
-        newCart = prev.map(ci => 
-          ci.id === item.id 
-            ? { ...ci, quantity: ci.quantity + quantity, holdExpiry: new Date(Date.now() + 5 * 60 * 1000) }
-            : ci
-        );
-      } else {
-        newCart = [...prev, cartItem];
-      }
-      
-      // Reset timer when adding items
-      setTimeLeft(300);
-      
-      // Save to localStorage
-      localStorage.setItem('jijiFreshCart', JSON.stringify(newCart));
-      return newCart;
-    });
   };
 
   const updateQuantity = (itemId: string, newQuantity: number) => {
@@ -88,17 +80,26 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isOpen, onClose }) => {
 
     setCartItems(prev => {
       const newCart = prev.map(item => 
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
+        item.id === itemId ? { 
+          ...item, 
+          quantity: newQuantity,
+          holdExpiry: new Date(Date.now() + 5 * 60 * 1000) // Reset timer
+        } : item
       );
       localStorage.setItem('jijiFreshCart', JSON.stringify(newCart));
+      window.dispatchEvent(new CustomEvent('cartUpdated'));
       return newCart;
     });
+    
+    // Reset timer when updating quantities
+    setTimeLeft(300);
   };
 
   const removeFromCart = (itemId: string) => {
     setCartItems(prev => {
       const newCart = prev.filter(item => item.id !== itemId);
       localStorage.setItem('jijiFreshCart', JSON.stringify(newCart));
+      window.dispatchEvent(new CustomEvent('cartUpdated'));
       return newCart;
     });
   };
@@ -106,6 +107,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isOpen, onClose }) => {
   const clearCart = () => {
     setCartItems([]);
     localStorage.removeItem('jijiFreshCart');
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
   };
 
   const calculateSubtotal = () => {
@@ -156,12 +158,12 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isOpen, onClose }) => {
         state.isDarkMode ? 'bg-gray-800' : 'bg-white'
       }`}>
         {/* Header */}
-        <div className={`sticky top-0 p-6 border-b flex items-center justify-between ${
+        <div className={`sticky top-0 p-4 sm:p-6 border-b flex items-center justify-between ${
           state.isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'
         }`}>
           <div className="flex items-center space-x-3">
             <ShoppingCartIcon className="w-6 h-6 text-green-600" />
-            <h2 className={`text-2xl font-bold ${
+            <h2 className={`text-xl sm:text-2xl font-bold ${
               state.isDarkMode ? 'text-white' : 'text-gray-900'
             }`}>
               Shopping Cart ({cartItems.length})
@@ -194,7 +196,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {cartItems.length === 0 ? (
             <div className="text-center py-12">
               <ShoppingCartIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -421,7 +423,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isOpen, onClose }) => {
               </div>
 
               {/* Actions */}
-              <div className="flex space-x-3">
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                 <button
                   onClick={clearCart}
                   className={`flex-1 py-3 px-4 rounded-lg transition-colors ${

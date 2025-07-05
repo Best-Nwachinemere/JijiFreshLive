@@ -85,7 +85,7 @@ const Footer: React.FC = () => {
             <span>for Nigerian communities</span>
           </div>
           <p className="mt-2">
-            © 2024 JijiFresh. All rights reserved. Built on Lisk blockchain.
+            © 2025 JijiFresh. All rights reserved. Built on Lisk blockchain.
           </p>
         </div>
       </div>
