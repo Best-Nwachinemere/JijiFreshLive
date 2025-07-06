@@ -4,7 +4,7 @@
   "description": "Fresh Deals. Everyday. Your trusted local marketplace.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#f0fdf4",
   "theme_color": "#10b981",
   "orientation": "portrait-primary",
   "scope": "/",

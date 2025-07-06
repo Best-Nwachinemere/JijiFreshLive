@@ -29,9 +29,14 @@ const Header: React.FC = () => {
     const updateCartCount = () => {
       const savedCart = localStorage.getItem('jijiFreshCart');
       if (savedCart) {
-        const cart = JSON.parse(savedCart);
-        const count = cart.reduce((sum: number, item: any) => sum + item.quantity, 0);
-        setCartItemCount(count);
+        try {
+          const cart = JSON.parse(savedCart);
+          const count = cart.reduce((sum: number, item: any) => sum + item.quantity, 0);
+          setCartItemCount(count);
+        } catch (error) {
+          console.error('Error parsing cart:', error);
+          setCartItemCount(0);
+        }
       } else {
         setCartItemCount(0);
       }
@@ -83,7 +88,7 @@ const Header: React.FC = () => {
       } border-b`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo and Slogan */}
+            {/* Logo */}
             <Link to="/" className="flex items-center space-x-3 group">
               <div className="w-10 h-10 group-hover:scale-110 transition-transform duration-200">
                 <svg viewBox="0 0 1024 1024" className="w-full h-full fill-green-600">
@@ -107,11 +112,6 @@ const Header: React.FC = () => {
                 }`}>
                   JijiFresh
                 </h1>
-                <p className={`text-xs transition-all duration-500 ${
-                  state.isDarkMode ? 'text-green-400' : 'text-green-600'
-                }`}>
-                  {state.currentSlogan}
-                </p>
               </div>
             </Link>
 

@@ -24,21 +24,26 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isOpen, onClose }) => {
     // Load cart from localStorage
     const savedCart = localStorage.getItem('jijiFreshCart');
     if (savedCart) {
-      const cart = JSON.parse(savedCart);
-      const validItems = cart.filter((item: any) => {
-        const expiry = new Date(item.holdExpiry);
-        return expiry > new Date();
-      });
-      
-      setCartItems(validItems.map((item: any) => ({
-        ...item,
-        holdExpiry: new Date(item.holdExpiry)
-      })));
-      
-      // Update localStorage with valid items only
-      if (validItems.length !== cart.length) {
-        localStorage.setItem('jijiFreshCart', JSON.stringify(validItems));
-        window.dispatchEvent(new CustomEvent('cartUpdated'));
+      try {
+        const cart = JSON.parse(savedCart);
+        const validItems = cart.filter((item: any) => {
+          const expiry = new Date(item.holdExpiry);
+          return expiry > new Date();
+        });
+        
+        setCartItems(validItems.map((item: any) => ({
+          ...item,
+          holdExpiry: new Date(item.holdExpiry)
+        })));
+        
+        // Update localStorage with valid items only
+        if (validItems.length !== cart.length) {
+          localStorage.setItem('jijiFreshCart', JSON.stringify(validItems));
+          window.dispatchEvent(new CustomEvent('cartUpdated'));
+        }
+      } catch (error) {
+        console.error('Error loading cart:', error);
+        localStorage.removeItem('jijiFreshCart');
       }
     }
   }, [isOpen]);
