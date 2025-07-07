@@ -249,7 +249,7 @@ const HomePage: React.FC = () => {
           </div>
         )}
 
-        {/* Price */}
+        {/* Price - FIXED: No min price shown to buyers */}
         <div className="mb-4">
           <div className="flex items-center space-x-2">
             <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent">

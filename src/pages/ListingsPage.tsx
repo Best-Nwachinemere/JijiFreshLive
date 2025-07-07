@@ -90,7 +90,7 @@ const ListingsPage: React.FC = () => {
     setShowBargainModal(true);
     const randomMessage = haggleMessages[Math.floor(Math.random() * haggleMessages.length)];
     setBargainMessage(randomMessage);
-    setOfferPrice(listing.minPrice?.toString() || '');
+    setOfferPrice('');
     analytics.trackUserAction('bargain_initiated', { listingId: listing.id });
   };
 
@@ -105,13 +105,21 @@ const ListingsPage: React.FC = () => {
   const sendBargainMessage = () => {
     if (!selectedListing || !offerPrice) return;
     
+    const offer = parseInt(offerPrice);
+    const minPrice = selectedListing.minPrice || Math.floor(selectedListing.price * 0.7);
+    
+    if (offer < minPrice) {
+      showError('Offer Too Low', `Minimum acceptable price is ₦${minPrice.toLocaleString()}`);
+      return;
+    }
+    
     analytics.trackUserAction('bargain_offer_sent', { 
       listingId: selectedListing.id, 
-      offerPrice: parseInt(offerPrice),
+      offerPrice: offer,
       originalPrice: selectedListing.price 
     });
     
-    showSuccess('Offer Sent!', `Your bargain offer of ₦${parseInt(offerPrice).toLocaleString()} has been sent to ${selectedListing.sellerName}!`);
+    showSuccess('Offer Sent!', `Your bargain offer of ₦${offer.toLocaleString()} has been sent to ${selectedListing.sellerName}!`);
     setShowBargainModal(false);
     setBargainMessage('');
     setOfferPrice('');
@@ -384,17 +392,15 @@ const ListingsPage: React.FC = () => {
                 {listing.description}
               </p>
 
-              {/* Price */}
+              {/* Price - FIXED: No min price shown to buyers */}
               <div className="mb-4">
                 <div className="flex items-center space-x-2">
                   <span className="text-2xl font-bold text-green-600">
                     ₦{listing.price.toLocaleString()}
                   </span>
-                  {listing.isNegotiable && listing.minPrice && (
-                    <span className={`text-sm ${
-                      state.isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                    }`}>
-                      (Min: ₦{listing.minPrice.toLocaleString()})
+                  {listing.isNegotiable && (
+                    <span className="text-xs bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 px-2 py-1 rounded-full">
+                      Negotiable
                     </span>
                   )}
                 </div>
@@ -547,18 +553,11 @@ const ListingsPage: React.FC = () => {
               }`}>
                 Product: {selectedListing.title}
               </p>
-              <p className={`text-sm mb-2 ${
+              <p className={`text-sm mb-4 ${
                 state.isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}>
                 Listed Price: ₦{selectedListing.price.toLocaleString()}
               </p>
-              {selectedListing.minPrice && (
-                <p className={`text-sm mb-4 ${
-                  state.isDarkMode ? 'text-gray-400' : 'text-gray-600'
-                }`}>
-                  Minimum Price: ₦{selectedListing.minPrice.toLocaleString()}
-                </p>
-              )}
             </div>
 
             <div className="mb-4">
@@ -571,7 +570,6 @@ const ListingsPage: React.FC = () => {
                 type="number"
                 value={offerPrice}
                 onChange={(e) => setOfferPrice(e.target.value)}
-                min={selectedListing.minPrice || 0}
                 max={selectedListing.price}
                 className={`w-full p-3 rounded-lg border transition-colors ${
                   state.isDarkMode
