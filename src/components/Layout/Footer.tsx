@@ -132,8 +132,10 @@ const AdminAccessButton: React.FC = () => {
       setShowAdminLogin(false);
       setAdminCode('');
       
-      // Redirect to admin dashboard
-      window.location.href = '/admin';
+      // Redirect to admin dashboard after a short delay to ensure state is updated
+      setTimeout(() => {
+        window.location.href = '/admin';
+      }, 100);
     } else {
       alert('Invalid admin code');
     }

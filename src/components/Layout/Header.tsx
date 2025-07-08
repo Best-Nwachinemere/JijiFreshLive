@@ -76,6 +76,7 @@ const Header: React.FC = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('jijiFreshUser');
     dispatch({ type: 'SET_USER', payload: null });
   };
 

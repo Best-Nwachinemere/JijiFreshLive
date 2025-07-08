@@ -43,6 +43,12 @@ const initialState: AppState = {
 const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
     case 'SET_USER':
+      // Persist user to localStorage when setting user
+      if (action.payload) {
+        localStorage.setItem('jijiFreshUser', JSON.stringify(action.payload));
+      } else {
+        localStorage.removeItem('jijiFreshUser');
+      }
       return { ...state, user: action.payload };
     case 'SET_LISTINGS':
       return { ...state, listings: action.payload };

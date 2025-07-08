@@ -48,9 +48,23 @@ const AdminDashboard: React.FC = () => {
   if (!state.user || state.user.role !== 'admin') {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
-        <div className="text-6xl mb-4">🚫</div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Access Denied</h2>
-        <p className="text-gray-600">Admin access required.</p>
+        <div className="text-6xl mb-4">🔐</div>
+        <h2 className={`text-2xl font-bold mb-4 ${
+          state.isDarkMode ? 'text-white' : 'text-gray-900'
+        }`}>
+          Admin Access Required
+        </h2>
+        <p className={`mb-6 ${
+          state.isDarkMode ? 'text-gray-400' : 'text-gray-600'
+        }`}>
+          Please log in with admin credentials to access this dashboard.
+        </p>
+        <button
+          onClick={() => window.location.href = '/'}
+          className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors"
+        >
+          Go to Homepage
+        </button>
       </div>
     );
   }
