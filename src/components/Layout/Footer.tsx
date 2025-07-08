@@ -224,6 +224,4 @@ const AdminAccessButton: React.FC = () => {
   );
 };
 
-// Add React import at the top
-import React, { useState } from 'react';
 export default Footer;
