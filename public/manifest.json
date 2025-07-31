@@ -11,12 +11,7 @@
   "lang": "en",
   "categories": ["shopping", "business", "lifestyle"],
   "icons": [
-    {
-      "src": "/JijiFreshlogo.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    },
+
     {
       "src": "/JijiFreshlogo.svg",
       "sizes": "192x192",
